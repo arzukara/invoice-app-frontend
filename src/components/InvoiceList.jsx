@@ -3,21 +3,14 @@ import { Link } from "react-router-dom";
 import Dropdown from "./Dropdown";
 import "./InvoiceList.css";
 import Invoice from "./Invoice";
-
+import api from "../services/api";
 
 export default function InvoiceList() {
     const [invoices, setInvoices] = useState([]);
 
-    // This method fetches the records from the database.
     useEffect(() => {
         async function getInvoices() {
-            const response = await fetch(`https://invoice-app-backend-jn90.onrender.com/invoice/`);
-            if (!response.ok) {
-                const message = `An error occurred: ${response.statusText}`;
-                console.error(message);
-                return;
-            }
-            const invoicesRes = await response.json();
+            const invoicesRes = await api.get('/invoice');
             setInvoices(invoicesRes);
         }
         getInvoices();
@@ -31,7 +24,6 @@ export default function InvoiceList() {
         setSearchTerm(e.target.value);
     };
 
-    // This following section will display the table with the records of individuals.
     return (
         <section className="invoices">
             <div className="invoices__container">
