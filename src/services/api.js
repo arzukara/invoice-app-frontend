@@ -17,7 +17,8 @@ const api = {
       body: JSON.stringify(data)
     });
     if (!response.ok) {
-      throw new Error('Network response was not ok');
+      const errorMessage = await response.text();
+      throw new Error(`Network response was not ok: ${errorMessage}`);
     }
     return response.json();
   },

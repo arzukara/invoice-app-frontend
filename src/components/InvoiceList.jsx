@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
 import Dropdown from "./Dropdown";
 import "./InvoiceList.css";
 import Invoice from "./Invoice";
@@ -7,6 +6,7 @@ import api from "../services/api";
 
 export default function InvoiceList() {
     const [invoices, setInvoices] = useState([]);
+    const [selectedStatuses, setSelectedStatuses] = useState([]);
 
     useEffect(() => {
         async function getInvoices() {
@@ -15,26 +15,34 @@ export default function InvoiceList() {
         }
         getInvoices();
         return;
-    }, [invoices.length]);
+    }, [selectedStatuses.length == 0]);
 
+    useEffect(() => {
+        async function getInvoicesByStatus() {
+            const invoicesRes = await api.post('/invoice/filter', { selectedStatuses });
+            setInvoices(invoicesRes);
+        }
+        if(selectedStatuses.length > 0){
+            getInvoicesByStatus();
+        }
+        return;
+    }, [selectedStatuses.length]);
 
-    const [searchTerm, setSearchTerm] = useState('');
-
-    const handleChange = (e) => {
-        setSearchTerm(e.target.value);
-    };
-
-    return (
+     return (
         <section className="invoices">
             <div className="invoices__container">
                 <div className="invoices__top-container">
                     <div className="invoices__title-wrap">
                         <h1 className="invoices__title">Invoices</h1>
-                       <Dropdown options={['Draft', 'Pending', 'Paid']}></Dropdown>
+                       <Dropdown 
+                       options={['Draft', 'Pending', 'Paid']} 
+                       selectedStatuses={selectedStatuses} 
+                       setSelectedStatuses={setSelectedStatuses}
+                       ></Dropdown>
                     </div>
                 </div>
 
-                {invoices.length ? (
+                {invoices ? (
                     <ul className="invoices__list">
                         {
                                 invoices.map((invoice, id) => (

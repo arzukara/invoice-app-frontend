@@ -82,15 +82,15 @@
     border-radius: 6px;
 }
 
-.invoice__status-wrap_type_paid {
+.invoice__status-wrap_type_Paid {
     background-color: rgba(51, 214, 159, 0.06);
 }
 
-.invoice__status-wrap_type_pending {
+.invoice__status-wrap_type_Pending {
     background-color: rgba(255, 143, 0, 0.06);
 }
 
-.invoice__status-wrap_type_draft {
+.invoice__status-wrap_type_Draft {
     background-color: rgb(240, 240, 240);
 }
 
@@ -100,15 +100,15 @@
     border-radius: 50%;
 }
 
-.invoice__status-dot_type_paid {
+.invoice__status-dot_type_Paid {
     background-color: rgba(51, 214, 159, 1);
 }
 
-.invoice__status-dot_type_pending {
+.invoice__status-dot_type_Pending {
     background-color: rgba(255, 143, 0, 1);
 }
 
-.invoice__status-dot_type_draft {
+.invoice__status-dot_type_Draft {
     background-color: black;
 }
 
@@ -124,15 +124,15 @@
     margin: 0;
 }
 
-.invoice__status_type_paid {
+.invoice__status_type_Paid {
     color: rgba(51, 214, 159, 1);
 }
 
-.invoice__status_type_pending {
+.invoice__status_type_Pending {
     color: rgba(255, 143, 0, 1);
 }
 
-.invoice__status_type_draft {
+.invoice__status_type_Draft {
     color: black;
 }
 

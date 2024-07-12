@@ -2,9 +2,9 @@ import React, { useState, useRef } from 'react';
 import { useClickOutside } from "../utils/utils";
 import './Dropdown.css';
 
-const Dropdown = ({ options }) => {
+const Dropdown = ({ options, selectedStatuses, setSelectedStatuses }) => {
     const [isOpen, setIsOpen] = useState(false);
-    const [selectedItems, setSelectedItems] = useState([]);
+
     const dropdownRef = useRef(null);
 
     const toggleDropdown = () => {
@@ -12,10 +12,10 @@ const Dropdown = ({ options }) => {
     };
 
     const handleCheckboxChange = (item) => {
-        if (selectedItems.includes(item)) {
-            setSelectedItems(selectedItems.filter(i => i !== item));
+        if (selectedStatuses.includes(item)) {
+            setSelectedStatuses(selectedStatuses.filter(i => i !== item));
         } else {
-            setSelectedItems([...selectedItems, item]);
+            setSelectedStatuses([...selectedStatuses, item]);
         }
     };
 
@@ -27,21 +27,21 @@ const Dropdown = ({ options }) => {
 
     return (
         <div className="dropdown-container" ref={dropdownRef}>
-            <button 
-                onClick={toggleDropdown} 
+            <button
+                onClick={toggleDropdown}
                 className="dropdown-button"
             >
                 Filter By Status
-                <svg 
-                    className="dropdown-icon" 
-                    xmlns="http://www.w3.org/2000/svg" 
-                    viewBox="0 0 20 20" 
+                <svg
+                    className="dropdown-icon"
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 20 20"
                     fill="currentColor"
                 >
-                    <path 
-                        fillRule="evenodd" 
-                        d="M5.293 9.293a1 1 0 011.414 0L10 12.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" 
-                        clipRule="evenodd" 
+                    <path
+                        fillRule="evenodd"
+                        d="M5.293 9.293a1 1 0 011.414 0L10 12.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                        clipRule="evenodd"
                     />
                 </svg>
             </button>
@@ -50,14 +50,14 @@ const Dropdown = ({ options }) => {
                 <div className="dropdown-menu">
                     <div className="menu">
                         {options.map(item => (
-                            <div 
-                                key={item} 
+                            <div
+                                key={item}
                                 className="menu-item"
                                 onClick={() => handleCheckboxChange(item)}
                             >
                                 <input
                                     type="checkbox"
-                                    checked={selectedItems.includes(item)}
+                                    checked={selectedStatuses.includes(item)}
                                     onChange={() => handleCheckboxChange(item)}
                                     className="checkbox"
                                 />
