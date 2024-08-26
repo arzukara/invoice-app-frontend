@@ -1,11 +1,15 @@
 import { Outlet } from "react-router-dom";
 import "./App.css";
+import { ThemeProvider } from "@mui/material/styles";
+import { lightTheme }  from "./theme";
+import ResponsiveAppBar from "./components/appBar/appBar.jsx";
 
 const App = () => {
   return (
-    <div>
+    <ThemeProvider theme={lightTheme}>
+      <ResponsiveAppBar></ResponsiveAppBar>
       <Outlet />
-    </div>
+    </ThemeProvider>
   );
 };
 export default App;

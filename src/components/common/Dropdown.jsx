@@ -1,9 +1,17 @@
 import React, { useState, useRef } from 'react';
-import { useClickOutside } from "../utils/utils";
+import { useClickOutside } from "../../utils/utils";
 import './Dropdown.css';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+  setSelectedStatuses
+} from '../../features/invoiceSlice';
 
-const Dropdown = ({ options, selectedStatuses, setSelectedStatuses }) => {
+const Dropdown = ({ options }) => {
     const [isOpen, setIsOpen] = useState(false);
+    const dispatch = useDispatch();
+    const {
+        selectedStatuses = [], 
+    } = useSelector((state) => state.invoice);
 
     const dropdownRef = useRef(null);
 
@@ -13,9 +21,9 @@ const Dropdown = ({ options, selectedStatuses, setSelectedStatuses }) => {
 
     const handleCheckboxChange = (item) => {
         if (selectedStatuses.includes(item)) {
-            setSelectedStatuses(selectedStatuses.filter(i => i !== item));
+            dispatch(setSelectedStatuses(selectedStatuses.filter(i => i !== item)));
         } else {
-            setSelectedStatuses([...selectedStatuses, item]);
+            dispatch(setSelectedStatuses([...selectedStatuses, item]));
         }
     };
 
@@ -24,6 +32,16 @@ const Dropdown = ({ options, selectedStatuses, setSelectedStatuses }) => {
     };
 
     useClickOutside(dropdownRef, handleClickOutside);
+
+    const handleSelectAllChange = () => {
+        if (selectedStatuses.length === options.length) {
+            dispatch(setSelectedStatuses([]));
+        } else {
+            dispatch(setSelectedStatuses(options));
+        }
+    };
+
+    const allSelected = selectedStatuses.length === options.length;
 
     return (
         <div className="dropdown-container" ref={dropdownRef}>
@@ -49,6 +67,19 @@ const Dropdown = ({ options, selectedStatuses, setSelectedStatuses }) => {
             {isOpen && (
                 <div className="dropdown-menu">
                     <div className="menu">
+                        <div
+                            key={"all"}
+                            className="menu-item"
+                            onClick={() => handleSelectAllChange()}
+                        >
+                            <input
+                                type="checkbox"
+                                checked={allSelected}
+                                onChange={handleSelectAllChange}
+                                className="checkbox"
+                            />
+                            <label>Select All</label>
+                        </div>
                         {options.map(item => (
                             <div
                                 key={item}

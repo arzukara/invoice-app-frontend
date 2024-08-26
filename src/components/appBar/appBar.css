@@ -1,0 +1,8 @@
+.fox-logo {
+  width: 33px;
+  height: 33px;
+  background-image: url("../../assets/images/fox-logo.png");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}

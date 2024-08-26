@@ -1,71 +1,86 @@
 import { useEffect, useState } from "react";
-import Dropdown from "./Dropdown";
-import "./InvoiceList.css";
-import Invoice from "./Invoice";
+import { useDispatch, useSelector } from "react-redux";
+import Dropdown from "./common/Dropdown";
 import api from "../services/api";
-import Loader from "./Loader";
+import Loader from "./common/Loader";
+import MuiTable from "./table/MuiTable";
+import './InvoiceList.css';
+import { useSnackbar } from "../hooks/useSnackbar";
+import {
+  setInvoices,
+  setActivePage,
+  setInvoicesCount,
+} from "../features/invoiceSlice";
 
 export default function InvoiceList() {
-    const [loading, setLoading] = useState(false);
-    const [invoices, setInvoices] = useState([]);
-    const [selectedStatuses, setSelectedStatuses] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [showSnackbar, SnackbarComponent] = useSnackbar();
 
-    useEffect(() => {
-        async function getInvoices() {
-            setLoading(true);
-            const invoicesRes = await api.get('/invoice');
-            setInvoices(invoicesRes);
-            setLoading(false);
-        }
-        if (selectedStatuses.length === 0) { getInvoices(); }
-        return;
-    }, [selectedStatuses]);
+  const dispatch = useDispatch();
+  const { activePage, pageSize, invoices, selectedStatuses } = useSelector(
+    (state) => state.invoice
+  );
 
-    useEffect(() => {
-        async function getInvoicesByStatus() {
-            setLoading(true);
-            const invoicesRes = await api.post('/invoice/filter', { selectedStatuses });
-            setInvoices(invoicesRes);
-            setLoading(false);
-        }
-        if (selectedStatuses.length > 0) {
-            getInvoicesByStatus();
-        }
-        return;
-    }, [selectedStatuses]);
+  useEffect(() => {
+    async function fetchInvoiceData() {
+      setLoading(true);
+      try {
+        const invoicesCountRes = await api.post("/invoice/count", {
+          selectedStatuses,
+        });
+        dispatch(setInvoicesCount(invoicesCountRes.count));
 
-    return (
-        <section className="invoices">
-            <div className="invoices__container">
-                <div className="invoices__top-container">
-                    <div className="invoices__title-wrap">
-                        <h1 className="invoices__title">Invoices</h1>
-                        <Dropdown
-                            options={['Draft', 'Pending', 'Paid']}
-                            selectedStatuses={selectedStatuses}
-                            setSelectedStatuses={setSelectedStatuses}
-                        ></Dropdown>
-                    </div>
-                </div>
-                {loading ? (<Loader />) : (
-                    invoices ? (
-                        <ul className="invoices__list" >
-                            {
-                                invoices.map((invoice, id) => (
-                                    <Invoice
-                                        key={id}
-                                        invoice={invoice}
+        const invoicesRes = await api.post(
+          `/invoice/page?page=1&limit=${pageSize}`,
+          { selectedStatuses }
+        );
+        dispatch(setInvoices(invoicesRes));
+        dispatch(setActivePage(1));
+      } catch (error) {
+        showSnackbar(error.response?.data?.error || "Failed to fetch invoice data", "error");
+      } finally {
+        setLoading(false);
+      }
+    }
+    fetchInvoiceData();
+  }, [selectedStatuses, pageSize, dispatch, showSnackbar]);
 
-                                    />
-                                ))
-                            }
-                        </ul>
-                    ) : (
-                        <div>No Invoice</div>
-                    )
-                )}
+  useEffect(() => {
+    async function fetchInvoicesByPage() {
+      setLoading(true);
+      try {
+        const invoicesRes = await api.post(
+          `/invoice/page?page=${activePage}&limit=${pageSize}`,
+          { selectedStatuses }
+        );
+        dispatch(setInvoices(invoicesRes));
+      } catch (error) {
+        showSnackbar(error.response?.data?.error || "Failed to fetch invoices for the selected page", "error");
+      } finally {
+        setLoading(false);
+      }
+    }
+    fetchInvoicesByPage();
+  }, [activePage, pageSize, selectedStatuses, dispatch, showSnackbar]);
 
-            </div>
-        </section >
-    );
+  return (
+    <section className="invoices">
+      <div className="invoices__container">
+        <div className="invoices__top-container">
+          <div className="invoices__title-wrap">
+            <h1 className="invoices__title">Invoices</h1>
+            <Dropdown options={["Draft", "Pending", "Paid"]}></Dropdown>
+          </div>
+        </div>
+        {loading ? (
+          <Loader />
+        ) : invoices ? (
+          <MuiTable></MuiTable>
+        ) : (
+          <div>No Invoice</div>
+        )}
+      </div>
+      <SnackbarComponent />
+    </section>
+  );
 }

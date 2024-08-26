@@ -1,0 +1,63 @@
+.pagination-container {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  width: -webkit-fill-available;
+  gap: 10px
+}
+
+.pagination-select-page-size {
+  padding-left: 10px;
+  display: flex;
+  gap: 5px
+}
+
+.invoice__status-container {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    height: -webkit-fill-available;
+}
+
+.invoice__status-wrap {
+    width: 104px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    mix-blend-mode: normal;
+    border-radius: 6px;
+}
+
+.invoice__status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+}
+
+.invoice__status_type_Paid {
+    color: #508D4E;
+    font-weight: bold;
+}
+
+.invoice__status_type_Pending {
+    color: #FF8225;
+    font-weight: bold;
+}
+
+.invoice__status_type_Draft {
+    color: black;
+    font-weight: bold;
+}
+
+.invoice__status-dot_type_Paid {
+    background-color: #508D4E;
+}
+
+.invoice__status-dot_type_Pending {
+    background-color: #FF8225;
+}
+
+.invoice__status-dot_type_Draft {
+    background-color: black;
+}

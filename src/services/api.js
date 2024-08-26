@@ -1,4 +1,4 @@
-const BASE_URL = process.env.REACT_APP_BASE_URL_LIVE;
+const BASE_URL = process.env.REACT_APP_BASE_URL;
 
 const api = {
   get: async (endpoint) => {
