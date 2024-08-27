@@ -31,7 +31,7 @@ The frontend interacts with the backend via RESTful API and displays data to the
     ```
     npm install
     ```
-3. Configure environment variables:_
+3. Configure environment variables:<br/>
     Create a .env file in the root directory. Project requires a url to connect mongodb.
     For more info and example =>[How to Use MERN Stack: A Complete Guide](https://www.mongodb.com/resources/languages/mern-stack-tutorial)
     ```
