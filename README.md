@@ -4,8 +4,7 @@ This repository contains the frontend (client-side) code for the MERN stack appl
 
 The frontend is deployed on an AWS EC2 instance using GitHub Actions for continuous deployment.
 
-Live: [https://minathen-invoice-app.netlify.app](https://minathen-invoice-app.netlify.app)  
-Live: [https://invoice-app-frontend.onrender.com](https://invoice-app-frontend.onrender.com)
+Live: [https://minathen.com](https://minathen.com)  
 
 ## Overview
 
@@ -32,12 +31,11 @@ The frontend interacts with the backend via RESTful API and displays data to the
     npm install
     ```
 3. Configure environment variables:<br/>
-    Create a .env file in the root directory. Project requires a url to connect mongodb.
-    For more info and example =>[How to Use MERN Stack: A Complete Guide](https://www.mongodb.com/resources/languages/mern-stack-tutorial)
+    Edit the file named .env.example as .env or create a .env file in the root directory.
     ```
     REACT_APP_NODE_ENV = development
     REACT_APP_LOCAL_BASE_URL = http://localhost:5050
-    REACT_APP_SERVER_BASE_URL = http://localhost:5050
+    REACT_APP_SERVER_BASE_URL = https://api.minathen.com
     ```
 4. Start the development server:
     ```
