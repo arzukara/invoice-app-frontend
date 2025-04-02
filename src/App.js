@@ -1,15 +1,20 @@
 import { Outlet } from "react-router-dom";
 import "./App.css";
-import { ThemeProvider } from "@mui/material/styles";
+import { ThemeProvider, Box } from "@mui/material";
 import { lightTheme }  from "./theme";
-import ResponsiveAppBar from "./components/appBar/appBar.jsx";
+import Sidebar from "./components/sideBar/sideBar.jsx";
 
 const App = () => {
   return (
     <ThemeProvider theme={lightTheme}>
-      <ResponsiveAppBar></ResponsiveAppBar>
-      <Outlet />
+      <Box sx={{ position: "relative", height: "100vh" }}>
+        <Sidebar />
+        <Box sx={{ p: 2, height: "100vh" }}>
+          <Outlet />
+        </Box>
+      </Box>
     </ThemeProvider>
   );
 };
+
 export default App;

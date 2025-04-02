@@ -21,6 +21,9 @@ const lightTheme = createTheme({
       secondary: '#173B45',
     },
   },
+  typography: {
+    fontFamily: '"Poppins", sans-serif',
+  },
   components: {
     MuiAppBar: {
       styleOverrides: {
@@ -52,6 +55,9 @@ const darkTheme = createTheme({
       primary: '#FFFFFF',
       secondary: '#F8EDED',
     },
+  },
+  typography: {
+    fontFamily: '"Poppins", sans-serif',
   },
   components: {
     MuiAppBar: {

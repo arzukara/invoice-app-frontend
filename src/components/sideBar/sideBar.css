@@ -1,0 +1,25 @@
+.sidebar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    transition: width 0.3s;
+    z-index: 10;
+    background-color: rgba(255, 237, 224, 0.56); /* FFEDE0 %56 opaklık */
+    backdrop-filter: blur(160px);
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    padding: 8px; /* örneğin */
+  }
+  
+  .sidebar.collapsed {
+    width: 64px;
+    align-items: center;
+  }
+  
+  .sidebar.expanded {
+    width: 220px;
+    align-items: flex-start;
+  }
+  
