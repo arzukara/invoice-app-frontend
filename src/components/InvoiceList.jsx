@@ -75,7 +75,7 @@ export default function InvoiceList() {
         {loading ? (
           <Loader />
         ) : invoices ? (
-          <MuiTable></MuiTable>
+           <MuiTable></MuiTable>
         ) : (
           <div>No Invoice</div>
         )}
