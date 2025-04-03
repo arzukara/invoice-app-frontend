@@ -24,6 +24,8 @@ import DocumentText from "../icons/documentText";
 const SidebarContent = ({ expanded }) => (
   <Box
     sx={{
+      position: "absolute",
+      zIndex: 10,
       width: expanded ? 220 : 64,
       backgroundColor: "#ffffff1a",
       border: "1px solid #ffffff33",
@@ -138,6 +140,7 @@ const Sidebar = () => {
           open={mobileOpen}
           onClose={handleDrawerToggle}
           ModalProps={{ keepMounted: true }}
+          PaperProps={{ sx: { width: 220 } }} 
         >
           <SidebarContent expanded={true} />
         </Drawer>
