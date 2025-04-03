@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { DataGrid } from "@mui/x-data-grid";
-import { Pagination, PaginationItem, Typography, Stack } from "@mui/material";
+import { Pagination, PaginationItem, Typography, Stack, Box } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { setActivePage, setPageSize } from "../../features/invoiceSlice";
 import "./MuiTable.css";
@@ -22,7 +22,7 @@ const columns = [
     sortable: false,
     width: 160,
     renderCell: (params) => (
-      <StatusCell status={params.row.status} sx={{ display: 'flex'}}plotType="bar" />
+      <StatusCell status={params.row.status} sx={{ display: 'flex' }} plotType="bar" />
     ),
   },
 ];
@@ -30,12 +30,8 @@ const columns = [
 function StatusCell({ status }) {
   return (
     <div className="invoice__status-container">
-      <div
-        className={`invoice__status-wrap`}
-      >
-        <div
-          className={`invoice__status-dot invoice__status-dot_type_${status}`}
-        ></div>
+      <div className="invoice__status-wrap">
+        <div className={`invoice__status-dot invoice__status-dot_type_${status}`}></div>
         <p className={`invoice__status invoice__status_type_${status}`}>
           {status}
         </p>
@@ -48,9 +44,7 @@ function StatusCell({ status }) {
 const CustomPagination = () => {
   const [pageCount, setPageCount] = useState(0);
   const dispatch = useDispatch();
-  const { activePage, pageSize, invoicesCount } = useSelector(
-    (state) => state.invoice
-  );
+  const { activePage, pageSize, invoicesCount } = useSelector((state) => state.invoice);
 
   useEffect(() => {
     const totalPages = Math.ceil(invoicesCount / pageSize);
@@ -62,20 +56,25 @@ const CustomPagination = () => {
   };
 
   const handlePageSizeChange = (event) => {
-    dispatch(setPageSize(event.target.value));
+    dispatch(setPageSize(Number(event.target.value)));
   };
 
   return (
-    <div className="pagination-container">
-      <div className="pagination-select-page-size">
+    <Stack
+      spacing={2}
+      direction={{ xs: "column", sm: "row" }}
+      alignItems="center"
+      justifyContent="space-between"
+      sx={{ width: "100%", padding: "0.5rem" }}
+    >
+      <Stack direction="row" alignItems="center" spacing={1}>
         <Typography variant="body2">Rows per page:</Typography>
         <select value={pageSize} onChange={handlePageSizeChange}>
           <option value={3}>3</option>
           <option value={5}>5</option>
           <option value={10}>10</option>
         </select>
-      </div>
-
+      </Stack>
       <Pagination
         count={pageCount}
         page={activePage}
@@ -84,18 +83,18 @@ const CustomPagination = () => {
         showLastButton
         renderItem={(item) => <PaginationItem {...item} component="button" />}
       />
-    </div>
+    </Stack>
   );
 };
+
 export default function MuiTable() {
   const dispatch = useDispatch();
-  const { activePage, pageSize, invoices, invoicesCount } = useSelector(
-    (state) => state.invoice
-  );
+  const { activePage, pageSize, invoices, invoicesCount } = useSelector((state) => state.invoice);
 
   return (
-    <div style={{ display: "table", width:'-webkit-fill-available', height:'250px' }}>
+    <Box sx={{ width: "100%", overflowX: "auto", padding: "1rem" }}>
       <DataGrid
+        autoHeight
         rows={invoices}
         columns={columns}
         initialState={{
@@ -123,9 +122,9 @@ export default function MuiTable() {
             <Stack height="100%" alignItems="center" justifyContent="center">
               Local filter returns no result
             </Stack>
-          )
+          ),
         }}
       />
-    </div>
+    </Box>
   );
 }
